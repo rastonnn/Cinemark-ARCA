@@ -1,0 +1,49 @@
+CREATE TABLE "Activo" (
+	"IdActivo"	INTEGER NOT NULL DEFAULT 1,
+	"Descripcion"	TEXT(50) NOT NULL,
+	PRIMARY KEY("IdActivo")
+);
+
+CREATE TABLE "Butaca" (
+	"IdButaca"	INTEGER NOT NULL,
+	"NumButaca"	INTEGER NOT NULL,
+	"IdSala"	INTEGER,
+	"Activo"	INTEGER,
+	PRIMARY KEY("IdButaca" AUTOINCREMENT),
+	FOREIGN KEY("IdSala") REFERENCES "Sala"("idSala"),
+	FOREIGN KEY("Activo") REFERENCES "Activo"("IdActivo")
+);
+
+
+
+CREATE TABLE "Rol" (
+	"IdrRol"	INTEGER NOT NULL,
+	"Nombre"	TEXT(50) NOT NULL UNIQUE,
+	"Activo"	INTEGER,
+	PRIMARY KEY("IdrRol" AUTOINCREMENT),
+	FOREIGN KEY("Activo") REFERENCES "Activo"("IdActivo")
+);
+
+CREATE TABLE "Sala" (
+	"idSala"	INTEGER NOT NULL,
+	"Tipo"	TEXT NOT NULL,
+	"Activo"	INTEGER NOT NULL DEFAULT 1,
+	"Butaca"	INTEGER,
+	PRIMARY KEY("idSala" AUTOINCREMENT)
+);
+
+CREATE TABLE "Usuario" (
+	"idusuario"	INTEGER NOT NULL,
+	"Nombre"	TEXT NOT NULL,
+	"Apellido"	TEXT NOT NULL,
+	"E-mail"	TEXT,
+	"Nom_usuario"	TEXT(50) NOT NULL UNIQUE,
+	"Fecha_nac"	TEXT(30) NOT NULL,
+	"Dni"	INTEGER NOT NULL,
+	"IdRol"	INTEGER,
+	"IdAcitivo"	INTEGER,
+	PRIMARY KEY("idusuario" AUTOINCREMENT),
+	FOREIGN KEY("IdAcitivo") REFERENCES "Activo"("IdActivo"),
+	FOREIGN KEY("IdRol") REFERENCES "Rol"("IdrRol")
+);
+
