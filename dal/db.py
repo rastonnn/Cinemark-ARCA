@@ -2,7 +2,7 @@ import sqlite3
 from datetime import date
 import hashlib
 
-database = "super.db" # todo: por ahora ponemos el nombre de la base aqui, ver mejor opcion
+database = "CINEMARK--ARCA.db" # todo: por ahora ponemos el nombre de la base aqui, ver mejor opcion
 
 class Db:
     @staticmethod
@@ -44,14 +44,42 @@ class Db:
                             "Activo"	INTEGER NOT NULL DEFAULT 1,
                             PRIMARY KEY("RolId")
                         );'''
+        sql_Reserva = ''' CREATE TABLE IF NOT EXISTS "Reserva" (
+	                        "Idreserva"	INTEGER NOT NULL,
+	                        "IdPeli"	INTEGER NOT NULL,
+	                        "fecha"	TEXT(30) NOT NULL,
+	                        "hora"	TEXT(50) NOT NULL,
+	                        "Activo"	INTEGER NOT NULL DEFAULT 1,
+	                        PRIMARY KEY("Idreserva" AUTOINCREMENT)
+                        )'''
+        sql_Peliculas = '''CREATE TABLE IF NOT EXISTS "Peliculas" (
+	                        "IdPelicula"	INTEGER NOT NULL,
+	                        "NombrePelicula"	TEXT NOT NULL,
+	                        "Genero"	TEXT NOT NULL,
+	                        "Idioma"	TEXT NOT NULL,
+	                        "Clasificacion"	TEXT NOT NULL,
+                            "CalidadId"	INTEGER,
+	                        "Activa"	INTEGER NOT NULL DEFAULT 1,
+                        	PRIMARY KEY("IdPelicula" AUTOINCREMENT)
+                        );'''
+        sql_calidad = '''CREATE TABLE IF NOT EXISTS "Calidad" (
+                            "calidad_Id"	INTEGER NOT NULL,
+                            "Nombre"	VARCHAR(30) NOT NULL UNIQUE,
+                            "Activo"	INTEGER NOT NULL DEFAULT 1,
+                            PRIMARY KEY("calidad_Id")
+                        );'''
 
-        tablas = {"Usuarios": sql_usuarios, "Roles": sql_roles}
+        tablas = {"Usuarios": sql_usuarios, "Roles": sql_roles, "reserva": sql_Reserva, "Pelicula": sql_Peliculas }
+        
 
-        with sqlite3.connect(database) as cnn:
+        with sqlite3.connect(database) as cnn :
             cursor = cnn.cursor()
             for tabla, sql in tablas.items():
                 print(f"Creando tabla {tabla}")
                 cursor.execute(sql)
+            cnn.commit
+            
+        
                 # TODO agregar commit
             
     @staticmethod

@@ -5,6 +5,8 @@ import tkinter.messagebox as tkMsgBox
 import bll.usuarios as user
 import bll.roles as rol
 from datetime import date
+import re
+
 
 class User(Toplevel):
     def __init__(self, master=None, isAdmin = False, user_id = None):        
@@ -169,7 +171,7 @@ class User(Toplevel):
             cb_roles = ttk.Combobox(self, state="readonly", values=list(roles.values()), name="cbRoles")
         else:
             cb_roles = ttk.Combobox(self, state="disabled", values=list(roles.values()), name="cbRoles")
-            cb_roles.set(roles[4])
+            cb_roles.set(roles[1])
         cb_roles.place(x=140,y=330,width=283,height=30)
 
         GButton_825 = Button(self)
@@ -207,7 +209,7 @@ class User(Toplevel):
                 GLineEdit_481.insert(0, usuario[6])
                 GLineEdit_481["state"] = "disabled"           
                 cb_roles.set(usuario[8])
-
+            
     def get_value(self, name):
         return self.nametowidget(name).get()
 
@@ -230,7 +232,8 @@ class User(Toplevel):
             confirmacion = self.get_value("txtConfirmacion")
             rol_id = self.get_index("cbRoles")
 
-            # TODO validar los datos antes de ingresar
+            
+             # TODO validar los datos antes de ingresar
             if apellido == "":
                 tkMsgBox.showerror(self.master.title(), "Apellido es un valor requerido.")
                 return
@@ -238,9 +241,11 @@ class User(Toplevel):
             if nombre == "":
                 tkMsgBox.showerror(self.master.title(), "Nombre es un valor requerido.")
                 return
-            
-            # agregar los demas
-            # .....
+            if email != "":
+                if not re.match('^[(a-z0-9\_\-\.)]+@[(a-z0-9\_\-\.)]+\.[(a-z)]{2,15}$',email.lower()):
+                    tkMsgBox.showerror(self.master.title(), "email invalido")
+                    return
+
             
             if contrasenia != confirmacion:
                 tkMsgBox.showerror(self.master.title(), "La contraseña con su confirmacion no tienen el mismo valor.")

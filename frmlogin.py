@@ -4,6 +4,7 @@ import tkinter.messagebox as tkMsgBox
 from frmuser import User
 from frmdashboard import Dashboard
 import bll.usuarios as user
+from MenuUsuario import MenUsuario
 
 class Login(tk.Toplevel):
     def __init__(self, master=None):
@@ -99,8 +100,8 @@ class Login(tk.Toplevel):
                             Dashboard(self.master)
                             self.destroy()
                         elif usuario[8] == "Cliente":
-                            # TODO chequear el rol del usuario para abrir el menu/ventana correspondiente
-                            print("Mostrar pantalla para usuario con rol de Cliente")
+                             MenUsuario(self.master)
+                            
                     else:
                         tkMsgBox.showerror(self.master.title(), "Se produjo un error al obtener los datos del usuario, reintente nuevamente")
                 else:

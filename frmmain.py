@@ -33,7 +33,7 @@ class App:
 if __name__ == "__main__":
     Db.crear_tablas()
     Db.poblar_tablas()
-    project = "cinemark" #"supermarket"
+    project = "CINEMARK--ARCA" #"supermarket"
     root = tk.Tk()
     root.iconbitmap(default=f"{project}.ico")
     app = App(root, project.capitalize())
